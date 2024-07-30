@@ -40,10 +40,10 @@ class Product(models.Model):
     
 # User degan table ham yaratilishi kerak #
 
-class User(models.Model):
-    name=models.CharField(max_length=100)
-    address=models.TextField()
-    phone_number=models.TextField()
+# class User(models.Model):
+#     name=models.CharField(max_length=100)
+#     address=models.TextField()
+#     phone_number=models.TextField()
 
 
 # Create your models here.
@@ -51,26 +51,27 @@ class Comment(models.Model):
     name=models.CharField(max_length=100)
     email=models.TextField()
     product=models.ForeignKey('Product', on_delete=models.CASCADE, related_name='products')
-    user=models.ForeignKey('User', on_delete=models.CASCADE, related_name='users')
+    comment=models.TextField()
+   
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['product_id', 'user_id'], name='unique_product_user_comment')
-        ]
+#     class Meta:
+#         constraints = [
+#             models.UniqueConstraint(fields=['product_id', 'user_id'], name='unique_product_user_comment')
+#         ]
 
-    def __str__(self):
-        return f'Comment {self.comment_id} by {self.user_id} on {self.product_id}'
+#     def __str__(self):
+#         return f'Comment {self.comment_id} by {self.user_id} on {self.product_id}'
 
-class Order(models.Model):
-    name=models.CharField(max_length=100)
-    phone_number=models.TextField()
-    user=models.ForeignKey('User', on_delete=models.CASCADE, related_name='users')
+# class Order(models.Model):
+#     name=models.CharField(max_length=100)
+#     phone_number=models.TextField()
+#     user=models.ForeignKey('User', on_delete=models.CASCADE, related_name='users')
 
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['user_id'], name='unique_user_order')
-        ]
+#     class Meta:
+#         constraints = [
+#             models.UniqueConstraint(fields=['user_id'], name='unique_user_order')
+#         ]
 
 
 

@@ -92,27 +92,23 @@
                     <div class="text-center">
                         <h2>Latest comments</h2>
                     </div>
-
+                    {% for comment in comments %}
                     <div class="media card p-4 mt-2">
                         <div class="media-body">
-                          <h3 class="mt-0">John Doe</h3>
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                          <h3 class="mt-0"> {{comment.name}}</h3>
+                          <hr>
+                          <h4 class="mt-0"> {{comment.comment}} </h4>
                         </div>
                     </div>
 
                     <div class="media card p-4 mt-2">
                         <div class="media-body">
-                          <h3 class="mt-0">John Doe</h3>
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                          <h3 class="mt-0"> {{comment.name}} </h3>
+                          <h4 class="mt-0"> {{comment.comment}} </h4>
+                        
                         </div>
                     </div>
-
-                    <div class="media card p-4 mt-2">
-                        <div class="media-body">
-                          <h3 class="mt-0">John Doe</h3>
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
-                    </div>
+                    {% endfor %}
 
                 </div>
 
