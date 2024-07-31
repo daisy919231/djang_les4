@@ -34,7 +34,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-white" aria-labelledby="dropdownMenuButton2">
                                 {% for category in categories %}
-                                    <li><a class="dropdown-item" href="#!">{{ categories }}</a></li>
+                                    <li><a class="dropdown-item" href="#!">{{ category.title }}</a></li>
                                 {% empty %}
                                     <li><a class="dropdown-item" href="#!">No categories available</a></li>
                                 {% endfor %}
@@ -89,47 +89,52 @@
                     {% for product in products %}
                         <div class="col mb-5">
                             <div class="card h-100">
-                                {% if product.is_special %}
-                                    <!-- Sale badge for special items -->
+                                <!-- Sale badge-->
+                                {% if product.discount > 0 %}
                                     <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                                 {% endif %}
                                 <!-- Product image-->
-                                <img class="card-img-top" src="{{ product.image_url }}" alt="{{ product.name }}" />
+                                <img class="card-img-top" src="{{ product.image.url }}" alt="..." />
                                 <!-- Product details-->
                                 <div class="card-body p-4">
                                     <div class="text-center">
                                         <!-- Product name-->
                                         <h5 class="fw-bolder">{{ product.name }}</h5>
-                                        {% if product.is_special %}
-                                            <!-- Product reviews for special items-->
-                                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                                <div class="bi-star-fill"></div>
-                                                <div class="bi-star-fill"></div>
-                                                <div class="bi-star-fill"></div>
-                                                <div class="bi-star-fill"></div>
-                                                <div class="bi-star-fill"></div>
-                                            </div>
-                                            <!-- Special price display -->
-                                            <span class="text-muted text-decoration-line-through">${{ product.original_price }}</span>
-                                            ${{ product.sale_price }}
-                                        {% else %}
-                                            <!-- Regular product price-->
-                                            <span>${{ product.price }}</span>
-                                        {% endif %}
+                                        <!-- Product reviews-->
+                                        <div class="d-flex justify-content-center small text-warning mb-2">
+                                            {% with ''|center:product.rating as ratings %}
+                                                {%  for rating in ratings %}
+                                                    <div class="bi-star-fill"></div>
+                                                {% endfor %}
+                                            {% endwith %}
+                                
+                                        </div>
+                                        <!-- Product price-->
+                                        
+                                            {% if product.discount > 0 %}
+                                                <span class="text-muted text-decoration-line-through">
+                                                ${{product.price}} </span>
+                                                ${{product.discounted_price}}
+                                            {% else%}
+                                                ${{product.price}}
+                                            {% endif %}
+                                        
                                     </div>
                                 </div>
                                 <!-- Product actions-->
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center">
-                                        <a class="btn btn-outline-dark mt-auto" href="{% url 'product_details' product.id %}">View product</a>
-                                    </div>
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product_details' product.id  %}">View product</a></div>
                                 </div>
+                              
+                                
                             </div>
+
                         </div>
                     {% endfor %}
                 </div>
             </div>
         </section>
+                                  
         
         <!-- Footer-->
         <footer class="py-5 bg-dark">

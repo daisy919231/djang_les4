@@ -22,7 +22,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'product_list' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
@@ -49,15 +49,20 @@
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ product.image.url }}" alt="..." /></div>
                     <div class="col-md-6">
-                        <div class="small mb-1">Rating: 124 </div>
-                        <h1 class="display-5 fw-bolder">Shop item template</h1>
+                        <div class="small mb-1"> Quantity: {{ product.quantity }}</div>
+                        <h1 class="display-5 fw-bolder">{{ product.name}}</h1>
                         <div class="fs-5 mb-5">
-                            <span class="text-decoration-line-through">$45.00</span>
-                            <span>$40.00</span>
+                            {% if product.discount > 0 %}
+                                                <span class="text-muted text-decoration-line-through">
+                                                ${{product.price}} </span>
+                                                ${{product.discounted_price}}
+                                            {% else%}
+                                                ${{product.price}}
+                                            {% endif %}
                         </div>
-                        <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus ipsam minima ea iste laborum vero?</p>
+                        <p class="lead">{{ product.description}}</p>
                         <div class="d-flex">
                             <form>
                                 <div class="form-group">
@@ -90,24 +95,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="text-center">
-                        <h2>Latest comments</h2>
+                        <h2>Latest comments ({{product.comments.count}})</h2>
                     </div>
-                    {% for comment in comments %}
-                    <div class="media card p-4 mt-2">
-                        <div class="media-body">
-                          <h3 class="mt-0"> {{comment.name}}</h3>
-                          <hr>
-                          <h4 class="mt-0"> {{comment.comment}} </h4>
+                    {% for comment in product.comments.all %}
+                        <div class="media card p-4 mt-2">
+                            <div class="media-body">
+                            <h4 class="mt-0"> {{comment.name}}</h4>
+                            <p class="mt-0"> {{comment.comment}} </p>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="media card p-4 mt-2">
-                        <div class="media-body">
-                          <h3 class="mt-0"> {{comment.name}} </h3>
-                          <h4 class="mt-0"> {{comment.comment}} </h4>
-                        
-                        </div>
-                    </div>
                     {% endfor %}
 
                 </div>
