@@ -64,24 +64,25 @@
                         </div>
                         <p class="lead">{{ product.description}}</p>
                         <div class="d-flex">
-                            <form>
+                            <form method="post" action="{% url 'place_order' product.id %}">
+                                {% csrf_token %}
                                 <div class="form-group">
                                     <h2>Place an order</h2>
                                 </div>
                                 <div class="form-group mb-3">
-                                  <label for="formGroupExampleInput">Your name</label>
-                                  <input type="text" class="form-control"  placeholder="Your name">
+                                  <label for="formGroupExampleInput"> {{orders.name}}</label>
+                                  <input type="text" class="form-control" name="name" placeholder="Your name">
                                 </div>
                                 <div class="form-group mb-3">
-                                  <label for="formGroupExampleInput2">Your phone</label>
-                                  <input type="text" class="form-control" placeholder="Your phone">
+                                  <label for="formGroupExampleInput2"> {{orders.phone_number}}</label>
+                                  <input type="tel" class="form-control" name="phone_number" placeholder="Your phone">
                                 </div>
         
                                
         
                                   <div class="form-group mb-3">
                                    
-                                    <input type="text" class="btn btn-success" value="Send">
+                                    <input type="submit" class="btn btn-success" value="Send">
                                   </div>
                               </form>
                            
@@ -97,11 +98,13 @@
                     <div class="text-center">
                         <h2>Latest comments ({{product.comments.count}})</h2>
                     </div>
-                    {% for comment in product.comments.all %}
+                    {% for comment in comments %}
                         <div class="media card p-4 mt-2">
                             <div class="media-body">
-                            <h4 class="mt-0"> {{comment.name}}</h4>
-                            <p class="mt-0"> {{comment.comment}} </p>
+                            <h4 class="mt-0"> {{comment.name}} <mark> {{comment.created_at}} </mark></h4>
+                            <br>
+
+                            <h5 class="mt-0"> {{comment.comment}} </h5>
                             </div>
                         </div>
                     {% endfor %}
@@ -109,35 +112,43 @@
                 </div>
 
                 <div class="col-8 offset-2 mt-5">
-                   
-                    <div class=" p-5">
+                    <div class="p-5">
                         <div class="text-center">
                             <h3>Add Comment</h3>
                         </div>
-                    
-                    <form>
-                        <div class="form-group mb-3">
-                          <label for="formGroupExampleInput">Your name</label>
-                          <input type="text" class="form-control"  placeholder="Your name">
+                        <div>
+                            {% if form.errors %}
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <div class="alert alert-danger"> 
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endif %}
                         </div>
-                        <div class="form-group mb-3">
-                          <label for="formGroupExampleInput2">Your email</label>
-                          <input type="text" class="form-control" placeholder="Your email">
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label for="formGroupExampleInput2">Your comment</label>
-                           <textarea name="" class="form-control" id="" cols="30" rows="10"></textarea>
-                          </div>
-
-                          <div class="form-group mb-3">
-                           
-                            <input type="text" class="btn btn-success" value="Send">
-                          </div>
-                      </form>
-
+                
+                        <form method="post" action="{% url 'add_comment' product.id %}">
+                            {% csrf_token %}
+                            <div class="form-group mb-3">
+                                <label for="id_name">Your name</label>
+                                <input type="text" class="form-control" name="name" value="{{ form.name.value|default:'' }}" placeholder="Your name">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="id_email">Your email</label>
+                                <input type="text" class="form-control" name="email" value="{{ form.email.value|default:'' }}" placeholder="Your email">
+                            </div>
+                
+                            <div class="form-group mb-3">
+                                <label for="id_comment">Your comment</label>
+                                <textarea name="comment" class="form-control" cols="30" rows="10">{{ form.comment.value|default:'' }}</textarea>
+                            </div>
+                
+                            <div class="form-group mb-3">
+                                <input type="submit" class="btn btn-success" value="Send">
+                            </div>
+                        </form>
                     </div>
-                      
                 </div>
             </div>
         </div>

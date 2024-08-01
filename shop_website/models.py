@@ -1,12 +1,22 @@
 from django.db import models
 
+class BaseModel(models.Model):
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract=True
+
 class Category(models.Model):
     title=models.CharField(max_length=70, unique=True)
+
+    class Meta:
+        verbose_name_plural='Categories'
 
     def __str__(self) -> str:
         return self.title
 
-class Product(models.Model):
+class Product(BaseModel):
     class RatingChoices(models.IntegerChoices):
         zero = 0
         one = 1
@@ -20,19 +30,15 @@ class Product(models.Model):
     description=models.TextField(null=True, blank=True)
     price=models.FloatField()
     category=models.ForeignKey('Category', on_delete=models.CASCADE, related_name='products')
-    quantity=models.IntegerField(default=0)
+    quantity=models.PositiveIntegerField(default=0)
     rating=models.PositiveIntegerField(choices=RatingChoices.choices, default=RatingChoices.zero.value)
     discount=models.PositiveIntegerField(default=0)
     image=models.ImageField(upload_to='products', null=True, blank=True)
 
-
-    created_at=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now=True)
-
     @property
     def discounted_price(self):
         if self.discount > 0:
-            return self.price * (1-self.discount/100)
+            return int(self.price * (1-self.discount/100))
         return self.price
 
     def __str__(self):
@@ -53,11 +59,13 @@ class Product(models.Model):
 
 
 # Create your models here.
-class Comment(models.Model):
+class Comment(BaseModel):
     name=models.CharField(max_length=100)
-    email=models.TextField()
+    email=models.EmailField()
     product=models.ForeignKey('Product', on_delete=models.CASCADE, related_name='comments')
     comment=models.TextField()
+    is_provided=models.BooleanField(default=True)
+    
    
 
 #     class Meta:
@@ -68,10 +76,11 @@ class Comment(models.Model):
 #     def __str__(self):
 #         return f'Comment {self.comment_id} by {self.user_id} on {self.product_id}'
 
-# class Order(models.Model):
-#     name=models.CharField(max_length=100)
-#     phone_number=models.TextField()
-#     user=models.ForeignKey('User', on_delete=models.CASCADE, related_name='users')
+class Order(BaseModel):
+    name=models.CharField(max_length=100)
+    phone_number=models.TextField()
+    product=models.ForeignKey('Product', on_delete=models.CASCADE, related_name='orders')
+    order_quantity=models.PositiveIntegerField(default=0)
 
 
 #     class Meta:

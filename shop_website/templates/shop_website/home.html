@@ -26,7 +26,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href=" {% url 'product_list' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                         <li class="nav-item dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -34,7 +34,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-white" aria-labelledby="dropdownMenuButton2">
                                 {% for category in categories %}
-                                    <li><a class="dropdown-item" href="#!">{{ category.title }}</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'category_detail_id' category.id %}">{{ category.title }}</a></li>
                                 {% empty %}
                                     <li><a class="dropdown-item" href="#!">No categories available</a></li>
                                 {% endfor %}
@@ -58,7 +58,7 @@
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder">Shop in style</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                    <p class="lead fw-normal text-white-50 mb-0">With this shop homepage template</p>
                 </div>
             </div>
         </header>
