@@ -51,7 +51,9 @@
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ product.image.url }}" alt="..." /></div>
                     <div class="col-md-6">
-                        <div class="small mb-1"> Quantity: {{ product.quantity }}</div>
+                        <div class="small mb-1"> Quantity: {{product.quantity}}
+                            
+                        </div>
                         <h1 class="display-5 fw-bolder">{{ product.name}}</h1>
                         <div class="fs-5 mb-5">
                             {% if product.discount > 0 %}
@@ -65,18 +67,40 @@
                         <p class="lead">{{ product.description}}</p>
                         <div class="d-flex">
                             <form method="post" action="{% url 'place_order' product.id %}">
-                                {% csrf_token %}
-                                <div class="form-group">
+                                {% csrf_token %} 
+                                <div class="form-group"> 
                                     <h2>Place an order</h2>
                                 </div>
-                                <div class="form-group mb-3">
-                                  <label for="formGroupExampleInput"> {{orders.name}}</label>
-                                  <input type="text" class="form-control" name="name" placeholder="Your name">
+                                <div> 
+                                    <ul>
+                                        {% for message in messages %}
+                                            {% if 'error' in message.tags %}
+                                                <li style="color:red"> 
+                                                    {{message}}
+                                                </li>
+                                            {% elif 'succes' in message.tags %}
+                                                <li  style="color:green">
+                                                    {{message}} 
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+
+
+                                    </ul>
                                 </div>
                                 <div class="form-group mb-3">
-                                  <label for="formGroupExampleInput2"> {{orders.phone_number}}</label>
-                                  <input type="tel" class="form-control" name="phone_number" placeholder="Your phone">
+                                  <label for="formGroupExampleInput">Your name</label>
+                                  <input type="text" class="form-control" name="name" value="{{ form.name.value|default:'' }}" placeholder="Your name" required>
                                 </div>
+                                <div class="form-group mb-3">
+                                  <label for="formGroupExampleInput2">Your phone</label>
+                                  <input type="text" class="form-control" name="phone_number" value="{{ form.phone_number.value|default:'' }}" placeholder="Your phone" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="formGroupExampleInput2"> Quantity </label>
+                                    <input type="number" class="form-control" name="order_quantity" value="{{ form.order_quantity.value|default:'' }}" placeholder="How many products?" required>
+                                </div>
+          
         
                                
         

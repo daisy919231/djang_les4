@@ -33,7 +33,7 @@ class Product(BaseModel):
     quantity=models.PositiveIntegerField(default=0)
     rating=models.PositiveIntegerField(choices=RatingChoices.choices, default=RatingChoices.zero.value)
     discount=models.PositiveIntegerField(default=0)
-    image=models.ImageField(upload_to='products', null=True, blank=True)
+    image=models.ImageField(upload_to='products', default='sample_image.pg')
 
     @property
     def discounted_price(self):
@@ -49,7 +49,9 @@ class Product(BaseModel):
         if self.image:
             return self.image.url
         return None
-    
+        
+        
+
 # User degan table ham yaratilishi kerak #
 
 # class User(models.Model):
@@ -78,9 +80,12 @@ class Comment(BaseModel):
 
 class Order(BaseModel):
     name=models.CharField(max_length=100)
-    phone_number=models.TextField()
-    product=models.ForeignKey('Product', on_delete=models.CASCADE, related_name='orders')
+    phone_number=models.CharField(max_length=13)
+    product=models.ForeignKey('Product', on_delete=models.CASCADE)
     order_quantity=models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return (self.name + '' + self.phone_number)
 
 
 #     class Meta:
