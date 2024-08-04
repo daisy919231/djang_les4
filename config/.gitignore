@@ -1,0 +1,26 @@
+# Ignore temporary files
+*.tmp
+*.temp
+
+# Ignore log files
+*.log
+
+# Ignore build artifacts
+/build/
+
+# Ignore IDE specific files
+.idea/
+.vscode/
+db.sqlite3/
+venv/
+
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json

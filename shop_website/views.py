@@ -156,20 +156,28 @@ def add_product(request):
     return render (request, 'shop_website/add_product.html', context)
 
 
+@login_required
 def delete_product(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+    product=get_object_or_404(Product, id=product_id)
     if product:
         product.delete()
         return redirect('product_list')
-
-
+        
+@login_required
 def edit_product(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    form = ProductModelForm(instance=product)
-    if request.method == 'POST':
-        form = ProductModelForm(request.POST, request.FILES, instance=product)
+    product=get_object_or_404(Product, id=product_id)
+    form=ProductModelForm(instance=product)
+    if request.method=='POST':
+        form=ProductModelForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
-            return redirect('product_detail', product_id)
+            return redirect('product_details', product_id)
+        
+    context={
+            'form':form
+            }
 
-    return render(request, 'shop_website/edit-product.html', {'form': form})
+    return render (request, 'shop_website/edit-product.html', context)
+
+
+
