@@ -4,6 +4,6 @@ qildim o'xshadi. O'sha yangi repositoryni ko'rsangiz, akkuratniyroq ko'ringan un
 
 ![image](https://github.com/user-attachments/assets/4b1b7a9f-0cda-404d-8dce-afd44737c518)
 
-Mana ustoz shunda ko'ringan yangi repo ochib o'shanga push qilmoqchi bo'lganim, lekin git error berib birdaniga eski repository
+Mana ustoz shunda ko'ringan yangi repo ochib o'shanga push qilmoqchi bo'lgandim, lekin git error berib birdaniga eski repository
 ga push qilib yubordi.
 Deadlinedan o'tib shu editlar qilingani uchun sababini isbot qilib keltirmoqchi edim.
